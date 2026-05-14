@@ -2577,6 +2577,11 @@
 
   
     /* Lite nav cleanup */
+    .steady-floating-reset,
+    .floating-calm,
+    #calmNowBtn {
+      display: none !important;
+    }
 
     .bottom-nav .nav-link {
       gap: 6px;
@@ -4762,9 +4767,15 @@ function renderEntries() { return; }
 
     document.addEventListener("keydown", e => {
       if (e.key !== "Escape") return;
-      if (focusOverlay.classList.contains("open")) focusOverlay.classList.remove("open");
+      const focusOv = $("#focusOverlay");
+      const crisisOv = $("#crisisOverlay");
+      const liteOv = document.getElementById("liteResetOverlay");
+      const steadyOv = document.getElementById("steadyFocusMode");
+      if (focusOv?.classList.contains("open")) focusOv.classList.remove("open");
       if (modal.classList.contains("open")) { modal.classList.remove("open"); clearInterval(modalTimer); }
-      if (crisisOverlay?.classList.contains("open")) crisisOverlay.classList.remove("open");
+      if (crisisOv?.classList.contains("open")) crisisOv.classList.remove("open");
+      if (liteOv?.classList.contains("open")) { liteOv.classList.remove("open"); document.body.style.overflow = ""; }
+      if (steadyOv?.classList.contains("open")) { steadyOv.classList.remove("open"); document.body.style.overflow = ""; }
     });
 
     // Tier 4 state buttons fixed
@@ -4845,13 +4856,7 @@ function renderEntries() { return; }
         }
 
         if (state === "angry" || state === "overwhelmed") {
-          setTimeout(() => {
-            openSteadyFocus(
-              state === "angry"
-                ? "No fixing. No winning. Bring your body down first."
-                : "Reduce stimulation first. One breath. One action."
-            );
-          }, 600);
+          
         }
       }
 
@@ -4864,7 +4869,7 @@ function renderEntries() { return; }
       });
 
       $one("#steadyFloatingReset")?.addEventListener("click", () => {
-        openSteadyFocus("No fixing. No winning. Bring your body down first.");
+        
       });
 
       $one("#steadyFocusClose")?.addEventListener("click", closeSteadyFocus);
@@ -4876,8 +4881,37 @@ function renderEntries() { return; }
 
       $one("#crisisBtn")?.addEventListener("click", e => {
         e.preventDefault();
-        openSteadyFocus("No fixing. No winning. Bring your body down first.");
+        
       });
+
+      
+    // Clean Lite Reset controller
+    function openLiteReset() {
+      document.getElementById("liteResetOverlay")?.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLiteReset() {
+      document.getElementById("liteResetOverlay")?.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    $one("#steadyFloatingReset")?.addEventListener("click", openLiteReset);
+
+    $one("#crisisBtn")?.addEventListener("click", e => {
+      e.preventDefault();
+      openLiteReset();
+    });
+
+    $one("#liteResetClose")?.addEventListener("click", closeLiteReset);
+    $one("#liteResetDone")?.addEventListener("click", closeLiteReset);
+
+    document.getElementById("liteResetOverlay")?.addEventListener("click", e => {
+      if (e.target.id === "liteResetOverlay") {
+        closeLiteReset();
+      }
+    });
+
 
       let breathIn = true;
       setInterval(() => {
@@ -4887,6 +4921,33 @@ function renderEntries() { return; }
       }, 4000);
     })();
 
+  
+    // Reset button final fix
+    (function () {
+      const resetBtn = document.getElementById("crisisBtn");
+      const focusMode = document.getElementById("steadyFocusMode");
+      const focusCopy = document.getElementById("steadyFocusCopy");
+
+      function openResetMode() {
+        if (focusCopy) {
+          focusCopy.textContent = "No fixing. No winning. Bring your body down first.";
+        }
+        if (focusMode) {
+          focusMode.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }
+      }
+
+      if (resetBtn) {
+        const cleanBtn = resetBtn.cloneNode(true);
+        resetBtn.parentNode.replaceChild(cleanBtn, resetBtn);
+        cleanBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          openResetMode();
+        });
+      }
+    })();
 
   
     // Lite interactivity repair
@@ -5141,7 +5202,68 @@ function renderEntries() { return; }
       }
     })();
 
-  </script>
+  
+    // Final reset flow fix
+    (function () {
+      function ready(fn) {
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", fn);
+        } else {
+          fn();
+        }
+      }
+
+      ready(function () {
+        const resetBtn = document.getElementById("crisisBtn");
+        const overlay = document.getElementById("liteResetOverlay");
+        const closeBtn = document.getElementById("liteResetClose");
+        const doneBtn = document.getElementById("liteResetDone");
+
+        if (!overlay) return;
+
+        function openReset() {
+          overlay.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeReset() {
+          overlay.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+
+        // Remove any old click handlers by cloning
+        if (resetBtn) {
+          const cleanBtn = resetBtn.cloneNode(true);
+          resetBtn.parentNode.replaceChild(cleanBtn, resetBtn);
+
+          cleanBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openReset();
+          });
+        }
+
+        closeBtn?.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          closeReset();
+        });
+
+        doneBtn?.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          closeReset();
+        });
+
+        overlay.addEventListener("click", function (e) {
+          if (e.target === overlay) {
+            closeReset();
+          }
+        });
+      });
+    })();
+
+</script>
 
   <div class="steady-focus-mode" id="steadyFocusMode" role="dialog" aria-modal="true" aria-labelledby="steadyFocusTitle">
     <div class="steady-focus-card">
