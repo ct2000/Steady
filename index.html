@@ -817,11 +817,10 @@
     }
 
     @media print {
-      header, .floating-calm, .btn-row, .modal, .bottom-nav { display: none !important; }
+      header, .floating-calm, .fast-actions, .btn-row, .modal, .bottom-nav { display: none !important; }
       body { background: white; padding-bottom: 0; color: #111; }
       details.tool { break-inside: avoid; box-shadow: none; }
-      details.tool:not([open]) .panel { display: block; }
-      details.tool:not([open]) { display: block; }
+      details.tool .panel { display: block !important; }
     }
   
     
@@ -2543,7 +2542,7 @@
       box-shadow:
         inset 0 0 28px rgba(255,255,255,.10),
         0 0 80px rgba(77,166,255,.20);
-      animation: liteResetBreath 8s ease-in-out infinite;
+      animation: steadyBreath 8s ease-in-out infinite;
     }
 
     .lite-reset-caption {
@@ -2575,18 +2574,9 @@
       margin-right: 6px;
     }
 
-    @keyframes liteResetBreath {
-      0%, 100% { transform: scale(.90); }
-      50% { transform: scale(1.04); }
-    }
 
   
     /* Lite nav cleanup */
-    .steady-floating-reset,
-    .floating-calm,
-    #calmNowBtn {
-      display: none !important;
-    }
 
     .bottom-nav .nav-link {
       gap: 6px;
@@ -3552,7 +3542,7 @@
         </div>
       </div>
       <div class="top-actions">
-        <button class="pill-btn" id="themeBtn" type="button">🌙</button>
+        <button class="pill-btn" id="themeBtn" type="button" aria-label="Toggle light/dark theme">🌙</button>
         <button class="pill-btn" onclick="window.print()" type="button">Print</button>
       </div>
     </div>
@@ -3648,7 +3638,7 @@
                 <label class="chip"><input type="checkbox" value="urge to argue">urge to argue</label>
                 <label class="chip"><input type="checkbox" value="shallow breathing">shallow breathing</label>
               </div>
-              <div class="response-box" id="cueAdvice">Pick any signs you notice.</div>
+              <div class="response-box" id="cueAdvice" aria-live="polite">Pick any signs you notice.</div>
             </div>
           </div>
         </div>
@@ -3717,7 +3707,7 @@
                   <option value="unspoken">Unspoken expectations — “They should know.”</option>
                   <option value="past">Past filter — “This feels like before, so it is before.”</option>
                 </select>
-                <div class="response-box" id="ruleOutput"></div>
+                <div class="response-box" id="ruleOutput" aria-live="polite"></div>
               </div>
               <div class="mini-card">
                 <h4>Three-step check</h4>
@@ -3745,16 +3735,16 @@
         <div class="panel">
           <div class="panel-inner">
             <div class="emotion-grid">
-              <button class="emotion-btn" data-emotion="hurt">Hurt</button>
-              <button class="emotion-btn" data-emotion="fear">Fear</button>
-              <button class="emotion-btn" data-emotion="shame">Shame</button>
-              <button class="emotion-btn" data-emotion="rejection">Rejection</button>
-              <button class="emotion-btn" data-emotion="stress">Stress</button>
-              <button class="emotion-btn" data-emotion="powerless">Powerless</button>
-              <button class="emotion-btn" data-emotion="grief">Grief</button>
-              <button class="emotion-btn" data-emotion="overload">Overload</button>
+              <button class="emotion-btn" type="button" data-emotion="hurt">Hurt</button>
+              <button class="emotion-btn" type="button" data-emotion="fear">Fear</button>
+              <button class="emotion-btn" type="button" data-emotion="shame">Shame</button>
+              <button class="emotion-btn" type="button" data-emotion="rejection">Rejection</button>
+              <button class="emotion-btn" type="button" data-emotion="stress">Stress</button>
+              <button class="emotion-btn" type="button" data-emotion="powerless">Powerless</button>
+              <button class="emotion-btn" type="button" data-emotion="grief">Grief</button>
+              <button class="emotion-btn" type="button" data-emotion="overload">Overload</button>
             </div>
-            <div class="response-box" id="emotionOutput">Tap an emotion to explore what anger may be protecting.</div>
+            <div class="response-box" id="emotionOutput" aria-live="polite">Tap an emotion to explore what anger may be protecting.</div>
           </div>
         </div>
       </details>
@@ -4526,11 +4516,6 @@ Next time, ${next}. I’m sorry for my part, and I want to handle this better.`;
     const range = $("#angerRange");
     const number = $("#angerNumber");
     const tip = $("#angerTip");
-    range.addEventListener("input", () => {
-      const v = range.value;
-      number.textContent = v;
-      tip.textContent = tips[v];
-    });
 
     $("#cueChips")?.addEventListener("change", () => {
       const checked = $$("#cueChips input:checked").map(x => x.value);
@@ -4659,12 +4644,11 @@ Next response: pause, breathe, check the facts, then choose one respectful actio
     }
 
     function setEntries(entries) {
-      localStorage.setItem(journalKey, JSON.stringify(entries));
+      try { localStorage.setItem(journalKey, JSON.stringify(entries)); } catch { /* storage unavailable */ }
       renderEntries();
-updateTier2Streaks();
-updateInsights();
-updateAnalytics();
-updateTier2Streaks();
+      updateTier2Streaks();
+      updateInsights();
+      updateAnalytics();
     }
 
     
@@ -4679,25 +4663,22 @@ function renderEntries() { return; }
         $("#journalEntries").textContent = "Add a situation first.";
         return;
       }
+      const rawLevel = Number($("#journalLevel").value);
+      const level = Math.min(10, Math.max(1, isNaN(rawLevel) ? 5 : rawLevel));
       const entries = getEntries();
       entries.push({
         date: new Date().toLocaleString(),
         situation,
         helped: $("#journalHelped").value.trim(),
-        level: $("#journalLevel").value,
+        level,
         next: $("#journalNext").value.trim()
       });
       setEntries(entries);
-      updateInsights();
-updateAnalytics();
-updateTier2Streaks();
       ["journalSituation","journalHelped","journalNext"].forEach(id => $("#" + id).value = "");
     });
 
     $("#clearJournal")?.addEventListener("click", () => {
       if (confirm("Clear all saved journal entries from this browser?")) setEntries([]);
-      updateAnalytics();
-updateTier2Streaks();
     });
 
     $("#exportJournal")?.addEventListener("click", () => {
@@ -4727,10 +4708,21 @@ updateTier2Streaks();
       $("#habitScore").textContent = `Calm foundation: ${score}/6. ${messages[score]}`;
     }));
 
-    $("#themeBtn")?.addEventListener("click", () => {
+    (function () {
+      const saved = localStorage.getItem("calmAngerTheme");
+      if (saved) {
+        document.documentElement.setAttribute("data-theme", saved);
+        const btn = $("#themeBtn");
+        if (btn) btn.textContent = saved === "light" ? "🌙" : "☀️";
+      }
+    })();
+
+    $("#themeBtn")?.addEventListener("click", function () {
       const light = document.documentElement.getAttribute("data-theme") === "light";
-      document.documentElement.setAttribute("data-theme", light ? "dark" : "light");
-      $("#themeBtn").textContent = light ? "☀️" : "🌙";
+      const next = light ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", next);
+      this.textContent = light ? "☀️" : "🌙";
+      try { localStorage.setItem("calmAngerTheme", next); } catch { /* storage unavailable */ }
     });
 
     const modal = $("#calmModal");
@@ -4766,6 +4758,13 @@ updateTier2Streaks();
         modal.classList.remove("open");
         clearInterval(modalTimer);
       }
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key !== "Escape") return;
+      if (focusOverlay.classList.contains("open")) focusOverlay.classList.remove("open");
+      if (modal.classList.contains("open")) { modal.classList.remove("open"); clearInterval(modalTimer); }
+      if (crisisOverlay?.classList.contains("open")) crisisOverlay.classList.remove("open");
     });
 
     // Tier 4 state buttons fixed
@@ -4888,33 +4887,6 @@ updateTier2Streaks();
       }, 4000);
     })();
 
-  
-    // Reset button final fix
-    (function () {
-      const resetBtn = document.getElementById("crisisBtn");
-      const focusMode = document.getElementById("steadyFocusMode");
-      const focusCopy = document.getElementById("steadyFocusCopy");
-
-      function openResetMode() {
-        if (focusCopy) {
-          focusCopy.textContent = "No fixing. No winning. Bring your body down first.";
-        }
-        if (focusMode) {
-          focusMode.classList.add("open");
-          document.body.style.overflow = "hidden";
-        }
-      }
-
-      if (resetBtn) {
-        const cleanBtn = resetBtn.cloneNode(true);
-        resetBtn.parentNode.replaceChild(cleanBtn, resetBtn);
-        cleanBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          openResetMode();
-        });
-      }
-    })();
 
   
     // Lite interactivity repair
