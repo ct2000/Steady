@@ -1778,7 +1778,221 @@
       border-color: rgba(77,166,255,.22);
     }
 
-  </style>
+  
+    /* v6 fix: keep main header working on home, hide it during full-screen tools */
+    body.tool-screen-active > header,
+    body.tool-screen-active > .pull-refresh-indicator {
+      display: none !important;
+    }
+
+    body.tool-screen-active {
+      padding-top: 0 !important;
+    }
+
+    details.tool.tool-screen-open {
+      top: 0 !important;
+    }
+
+    details.tool.tool-screen-open > summary {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 10 !important;
+    }
+
+    @media (min-width: 900px) {
+      details.tool.tool-screen-open {
+        top: 18px !important;
+      }
+    }
+
+  
+    /* v6 fix: lock full-screen sections open */
+    details.tool.tool-screen-open > summary {
+      cursor: default !important;
+      pointer-events: none !important;
+    }
+
+    details.tool.tool-screen-open > summary .tool-screen-close,
+    details.tool.tool-screen-open > summary button,
+    details.tool.tool-screen-open > summary a {
+      pointer-events: auto !important;
+    }
+
+    details.tool.tool-screen-open[open] > summary::-webkit-details-marker {
+      display: none !important;
+    }
+
+    details.tool.tool-screen-open > summary .chev {
+      display: none !important;
+    }
+
+
+    /* v6 premium monochrome icon system */
+    .tile-art,
+    .small-tile span,
+    .icon {
+      font-family: ui-rounded, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 700 !important;
+      letter-spacing: -.02em;
+      color: var(--ink) !important;
+    }
+
+    .tile-art {
+      width: 56px !important;
+      height: 56px !important;
+      border-radius: 18px !important;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.10),
+          rgba(77,166,255,.06)
+        ) !important;
+      border: 1px solid rgba(77,166,255,.14) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.10),
+        0 8px 18px rgba(0,0,0,.06);
+      font-size: 1.4rem !important;
+    }
+
+    .small-tile span {
+      width: 46px !important;
+      height: 46px !important;
+      border-radius: 16px !important;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.08),
+          rgba(77,166,255,.05)
+        ) !important;
+      border: 1px solid rgba(77,166,255,.14) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 6px 14px rgba(0,0,0,.05);
+      font-size: 1.12rem !important;
+      color: var(--ink) !important;
+    }
+
+    .tool summary .icon {
+      width: 46px !important;
+      height: 46px !important;
+      min-width: 46px !important;
+      border-radius: 16px !important;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.10),
+          rgba(77,166,255,.06)
+        ) !important;
+      border: 1px solid rgba(77,166,255,.16) !important;
+      display: grid !important;
+      place-items: center !important;
+      font-size: 1.08rem !important;
+      color: var(--ink) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 6px 14px rgba(0,0,0,.05);
+    }
+
+    [data-theme="light"] .tile-art,
+    [data-theme="light"] .small-tile span,
+    [data-theme="light"] .tool summary .icon {
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.92),
+          rgba(77,166,255,.04)
+        ) !important;
+    }
+
+    .tile-art:hover,
+    .small-tile span:hover {
+      transform: translateY(-1px);
+    }
+
+
+    /* v7 proper outlined icon family */
+    .steady-icon-svg {
+      width: 1.32em;
+      height: 1.32em;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .tile-art,
+    .small-tile span,
+    .tool summary .icon,
+    .nav-link span,
+    .focus-reset-inline span,
+    .support-principle span {
+      color: var(--ink) !important;
+      display: grid !important;
+      place-items: center !important;
+    }
+
+    .tile-art .steady-icon-svg {
+      width: 1.65rem;
+      height: 1.65rem;
+    }
+
+    .small-tile span .steady-icon-svg,
+    .tool summary .icon .steady-icon-svg {
+      width: 1.42rem;
+      height: 1.42rem;
+    }
+
+    .nav-link span .steady-icon-svg {
+      width: 1.18rem;
+      height: 1.18rem;
+    }
+
+    .focus-reset-inline span .steady-icon-svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .tile-triggered .tile-art,
+    #pro-triggered-section summary .icon {
+      color: color-mix(in srgb, var(--ink) 86%, #d6933a) !important;
+    }
+
+    .tile-message .tile-art,
+    #respond-section summary .icon {
+      color: color-mix(in srgb, var(--ink) 84%, var(--accent)) !important;
+    }
+
+    .tile-ruminate .tile-art,
+    #pro-rumination-section summary .icon {
+      color: color-mix(in srgb, var(--ink) 82%, #8b7cff) !important;
+    }
+
+    .tile-reset .tile-art,
+    #pro-reset-section summary .icon,
+    #calm-section summary .icon {
+      color: color-mix(in srgb, var(--ink) 78%, var(--accent)) !important;
+    }
+
+    .theme-glyph {
+      font-size: 1.05rem;
+      line-height: 1;
+      display: inline-grid;
+      place-items: center;
+      width: 1.2em;
+      height: 1.2em;
+      font-weight: 900;
+    }
+
+    .tool-swipe-btn {
+      font-size: 1.35rem !important;
+      line-height: 1 !important;
+      font-family: ui-rounded, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+</style>
 </head>
 <body id="top">
 <div class="pull-refresh-indicator" id="pullRefreshIndicator" aria-hidden="true"><span class="pull-refresh-dot"></span><span id="pullRefreshText">Pull to refresh</span></div>
@@ -1788,7 +2002,7 @@
       <div class="logo" aria-hidden="true"><img src="icon.png" alt="" decoding="async" fetchpriority="high"></div>
       <div><h1>STEADY</h1><p>Pro tools for calmer responses.</p></div>
     </div>
-    <button class="pill-btn" id="themeBtn" type="button" aria-label="Toggle theme">🌙</button>
+    <button class="pill-btn" id="themeBtn" type="button" aria-label="Toggle theme"><span class="theme-glyph">☾</span></button>
   </div>
 </header>
 
@@ -1801,7 +2015,7 @@
         <h2>Slow the body first.</h2>
         <p>Start with a 90-second reset before deciding what to say or do.</p>
         <button class="focus-reset-inline" id="pro90TopBtn" data-open-target="pro-reset-section" type="button">
-          <span>⏱</span>
+          <span><svg class="steady-icon-svg steady-icon-timer" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13" r="7.5"/><path d="M9.5 3.5h5"/><path d="M12 5.5V3.5"/><path d="M12 9.5V13l2.4 1.7"/></svg></span>
           <em>Start reset</em>
         </button>
       </div>
@@ -1822,25 +2036,25 @@
 
     <div class="steady-tile-grid primary-tiles">
       <button class="steady-tile tile-reset" data-open-target="pro-reset-section" type="button">
-        <span class="tile-art">🧘</span>
+        <span class="tile-art"><svg class="steady-icon-svg steady-icon-reset" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="7.5"/><path d="M12 7v5l3.2 2"/><path d="M8.3 4.8 6.5 7.2 9.3 7"/></svg></span>
         <b>Reset</b>
         <small>90-second nervous-system reset.</small>
       </button>
 
       <button class="steady-tile tile-triggered" data-open-target="pro-triggered-section" type="button">
-        <span class="tile-art">🔥</span>
+        <span class="tile-art"><svg class="steady-icon-svg steady-icon-trigger" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.4 3.8c.7 2.7-.6 4-2 5.6-1.1 1.2-2 2.5-1.3 4.4"/><path d="M15.7 8.2c2.2 1.9 3 4.4 2.2 6.9a6 6 0 0 1-11.5-.5c-.7-3 1-5.2 3.2-7.4"/><path d="M12 20c2.2-.6 3.3-2.3 2.8-4.2-.3-1.2-1.1-2-2.1-2.8.2 1.8-.7 2.7-1.5 3.5-.9.9-1.1 2.1.8 3.5Z"/></svg></span>
         <b>I’m triggered</b>
         <small>Get the next best move.</small>
       </button>
 
       <button class="steady-tile tile-message" data-open-target="respond-section" type="button">
-        <span class="tile-art">💬</span>
+        <span class="tile-art"><svg class="steady-icon-svg steady-icon-message" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6.5h14v9H9l-4 3v-12Z"/><path d="M8 10h8"/><path d="M8 13h5"/></svg></span>
         <b>Check message</b>
         <small>Heat score + calmer rewrite.</small>
       </button>
 
       <button class="steady-tile tile-ruminate" data-open-target="pro-rumination-section" type="button">
-        <span class="tile-art">🧠</span>
+        <span class="tile-art"><svg class="steady-icon-svg steady-icon-mind" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18.5h5.8c2.8 0 5-2.2 5-5 0-2.2-1.4-4.1-3.4-4.8A5.6 5.6 0 0 0 5.7 10.1 4.5 4.5 0 0 0 9 18.5Z"/><path d="M9.5 8.5c1.8.2 2.4 1.4 2.2 2.7"/><path d="M14.7 9c-1.4.5-2 1.5-1.8 3"/><path d="M10.5 14.5h4.5"/></svg></span>
         <b>Stuck thinking</b>
         <small>Interrupt the replay loop.</small>
       </button>
@@ -1863,18 +2077,18 @@
     </div>
 
     <div class="steady-tile-grid secondary-tiles">
-      <button class="steady-tile small-tile" data-open-target="calm-section" type="button"><span>🌬️</span><b>Breathe</b></button>
-      <button class="steady-tile small-tile" data-open-target="thinking-section" type="button"><span>🔍</span><b>Check story</b></button>
-      <button class="steady-tile small-tile" data-open-target="pro-relationship-section" type="button"><span>🤝</span><b>Relationship</b></button>
-      <button class="steady-tile small-tile" data-open-target="repair-section" type="button"><span>🛠️</span><b>Repair</b></button>
-      <button class="steady-tile small-tile" data-open-target="journal" type="button"><span>📘</span><b>Journal</b></button>
-      <button class="steady-tile small-tile" data-open-target="pro-coach-section" type="button"><span>📈</span><b>Recovery</b></button>
+      <button class="steady-tile small-tile" data-open-target="calm-section" type="button"><span><svg class="steady-icon-svg steady-icon-breathe" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h9.5a2.5 2.5 0 1 0-2.1-3.8"/><path d="M4 14h13.5a2.8 2.8 0 1 1-2.3 4.4"/><path d="M4 11.8h7"/></svg></span><b>Breathe</b></button>
+      <button class="steady-tile small-tile" data-open-target="thinking-section" type="button"><span><svg class="steady-icon-svg steady-icon-story" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/><path d="M8.5 10.5h4"/><path d="M10.5 8.5v4"/></svg></span><b>Check story</b></button>
+      <button class="steady-tile small-tile" data-open-target="pro-relationship-section" type="button"><span><svg class="steady-icon-svg steady-icon-relationship" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8.2" cy="8.5" r="2.7"/><circle cx="15.8" cy="8.5" r="2.7"/><path d="M4.5 18c.7-2.7 2.2-4 3.7-4s3 .9 3.8 2.5"/><path d="M12 16.5c.8-1.6 2.3-2.5 3.8-2.5s3 .9 3.7 4"/><path d="M12 20s-3.2-2-3.2-4.2c0-1.1.8-2 1.9-2 .7 0 1.1.3 1.3.7.3-.4.7-.7 1.3-.7 1.1 0 1.9.9 1.9 2C15.2 18 12 20 12 20Z"/></svg></span><b>Relationship</b></button>
+      <button class="steady-tile small-tile" data-open-target="repair-section" type="button"><span><svg class="steady-icon-svg steady-icon-repair" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 5.2a4 4 0 0 0 4.3 4.3L9.2 19.1a2.2 2.2 0 0 1-3.1-3.1l9.6-9.6Z"/><path d="M7.2 16.7 9.3 18.8"/></svg></span><b>Repair</b></button>
+      <button class="steady-tile small-tile" data-open-target="journal" type="button"><span><svg class="steady-icon-svg steady-icon-journal" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 4.5h9.8A1.7 1.7 0 0 1 18 6.2v13.3H7.3A2.3 2.3 0 0 1 5 17.2V6a1.5 1.5 0 0 1 1.5-1.5Z"/><path d="M8 4.5v15"/><path d="M10.5 8h4.5"/><path d="M10.5 11h4.5"/></svg></span><b>Journal</b></button>
+      <button class="steady-tile small-tile" data-open-target="pro-coach-section" type="button"><span><svg class="steady-icon-svg steady-icon-recovery" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 18.5h14"/><path d="M7 15l3-3 2.5 2.5L17.5 8"/><path d="M15 8h2.5v2.5"/></svg></span><b>Recovery</b></button>
     </div>
   </section>
 
   <section class="accordion" aria-label="STEADY Pro tools">
     <details class="tool" id="pro-reset-section">
-      <summary><span class="icon">⏱️</span><span class="sum-text"><h3>90-second reset</h3><p>Let the first wave pass before deciding what to do.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-timer" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="13" r="7.5"/><path d="M9.5 3.5h5"/><path d="M12 5.5V3.5"/><path d="M12 9.5V13l2.4 1.7"/></svg>️</span><span class="sum-text"><h3>90-second reset</h3><p>Let the first wave pass before deciding what to do.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner pro-panel-grid">
         <div class="mini-card ninety-card reset-signature-card">
           <div class="reset-orb-wrap" aria-hidden="true">
@@ -1894,7 +2108,7 @@
     </details>
 
     <details class="tool" id="pro-triggered-section">
-      <summary><span class="icon">🔥</span><span class="sum-text"><h3>Triggered mode</h3><p>Pick the situation and get the next best move.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-trigger" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.4 3.8c.7 2.7-.6 4-2 5.6-1.1 1.2-2 2.5-1.3 4.4"/><path d="M15.7 8.2c2.2 1.9 3 4.4 2.2 6.9a6 6 0 0 1-11.5-.5c-.7-3 1-5.2 3.2-7.4"/><path d="M12 20c2.2-.6 3.3-2.3 2.8-4.2-.3-1.2-1.1-2-2.1-2.8.2 1.8-.7 2.7-1.5 3.5-.9.9-1.1 2.1.8 3.5Z"/></svg></span><span class="sum-text"><h3>Triggered mode</h3><p>Pick the situation and get the next best move.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner">
         <div class="pro-panel-grid">
           <div class="mini-card"><h4>Activation level</h4><input id="proTriggerLevel" type="range" min="1" max="10" value="6"><div class="meter-readout" style="margin-top:10px"><div class="meter-number" id="proTriggerNumber">6</div><div class="meter-tip" id="proTriggerTip">High enough to slow down before responding.</div></div></div>
@@ -1907,7 +2121,7 @@
     </details>
 
     <details class="tool" id="pro-rumination-section">
-      <summary><span class="icon">🧠</span><span class="sum-text"><h3>Rumination interrupter</h3><p>Stop replaying, rehearsing, and mind-reading.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-mind" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18.5h5.8c2.8 0 5-2.2 5-5 0-2.2-1.4-4.1-3.4-4.8A5.6 5.6 0 0 0 5.7 10.1 4.5 4.5 0 0 0 9 18.5Z"/><path d="M9.5 8.5c1.8.2 2.4 1.4 2.2 2.7"/><path d="M14.7 9c-1.4.5-2 1.5-1.8 3"/><path d="M10.5 14.5h4.5"/></svg></span><span class="sum-text"><h3>Rumination interrupter</h3><p>Stop replaying, rehearsing, and mind-reading.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner pro-panel-grid">
         <div class="mini-card"><h4>What loop are you in?</h4><div class="pro-option-grid"><button class="pro-option" data-rumination="past" type="button">Past argument</button><button class="pro-option" data-rumination="future" type="button">Future argument</button><button class="pro-option" data-rumination="rejection" type="button">Rejection story</button><button class="pro-option" data-rumination="regret" type="button">Regret</button><button class="pro-option" data-rumination="fairness" type="button">It’s unfair</button></div></div>
         <div class="mini-card"><h4>Interrupt script</h4><div class="response-box" id="proRuminationOutput">Choose the loop that fits best.</div></div>
@@ -1915,7 +2129,7 @@
     </details>
 
     <details class="tool" id="tools">
-      <summary><span class="icon">🌡️</span><span class="sum-text"><h3>Right now check-in</h3><p>Use this first when you feel activated.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4.5v10"/><path d="M9.5 6h5"/><path d="M9 14.5a4 4 0 1 0 6 0"/></svg>️</span><span class="sum-text"><h3>Right now check-in</h3><p>Use this first when you feel activated.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
         <div class="mini-card"><h4>Anger meter</h4><input id="angerRange" type="range" min="1" max="10" value="3"><div class="meter-readout"><div class="meter-number" id="angerNumber">3</div><div class="meter-tip" id="angerTip">Mild activation. Slow it down early.</div></div></div>
         <div class="mini-card"><h4>Warning signs radar</h4><p class="small">Tick what you notice.</p><div class="chips" id="cueChips"><label class="chip"><input type="checkbox" value="tight chest"> tight chest</label><label class="chip"><input type="checkbox" value="hot face"> hot face</label><label class="chip"><input type="checkbox" value="clenched jaw"> clenched jaw</label><label class="chip"><input type="checkbox" value="racing thoughts"> racing thoughts</label><label class="chip"><input type="checkbox" value="urge to argue"> urge to argue</label></div><div class="response-box" id="cueAdvice">Pick any signs you notice.</div></div>
@@ -1923,7 +2137,7 @@
     </details>
 
     <details class="tool" id="calm-section">
-      <summary><span class="icon">🌬️</span><span class="sum-text"><h3>Calm me down</h3><p>Breathing and grounding.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-breathe" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h9.5a2.5 2.5 0 1 0-2.1-3.8"/><path d="M4 14h13.5a2.8 2.8 0 1 1-2.3 4.4"/><path d="M4 11.8h7"/></svg></span><span class="sum-text"><h3>Calm me down</h3><p>Breathing and grounding.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
         <div class="mini-card breath calm-signature-card">
           <div class="reset-orb-wrap calm-orb-wrap" aria-hidden="true">
@@ -1943,7 +2157,7 @@
     </details>
 
     <details class="tool" id="thinking-section">
-      <summary><span class="icon">🔍</span><span class="sum-text"><h3>Check the story</h3><p>Separate facts from threat stories before you respond.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-story" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/><path d="M8.5 10.5h4"/><path d="M10.5 8.5v4"/></svg></span><span class="sum-text"><h3>Check the story</h3><p>Separate facts from threat stories before you respond.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner">
         <div class="grid2"><div class="row"><div><label for="trigger">Trigger</label><textarea id="trigger" placeholder="What happened?"></textarea></div><div><label for="thought">Automatic story</label><textarea id="thought" placeholder="What did your mind say?"></textarea></div></div><div class="row"><div><label for="feeling">Feeling/body cue</label><textarea id="feeling" placeholder="Angry, hurt, tight chest..."></textarea></div><div><label for="balanced">Balanced view</label><textarea id="balanced" placeholder="What is a calmer, fairer view?"></textarea></div></div></div>
         <div class="btn-row" style="margin-top:14px"><button class="btn" id="makeReframe" type="button">Build reframe</button><button class="btn secondary" id="clearCbt" type="button">Clear entries</button></div><div class="response-box" id="reframeOutput" style="margin-top:14px">Your reframe will appear here.</div>
@@ -1951,7 +2165,7 @@
     </details>
 
     <details class="tool" id="respond-section">
-      <summary><span class="icon">💬</span><span class="sum-text"><h3>Respond better</h3><p>Build, check, and soften messages before sending.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-message" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6.5h14v9H9l-4 3v-12Z"/><path d="M8 10h8"/><path d="M8 13h5"/></svg></span><span class="sum-text"><h3>Respond better</h3><p>Build, check, and soften messages before sending.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
         <div class="mini-card"><h4>Response builder</h4><div class="row"><div><label for="whenInput">When</label><input id="whenInput" placeholder="plans change last minute"></div><div><label for="feelInput">I feel</label><input id="feelInput" placeholder="frustrated"></div><div><label for="becauseInput">Because</label><input id="becauseInput" placeholder="it affects me"></div><div><label for="needInput">I need / prefer</label><input id="needInput" placeholder="more notice next time"></div></div><div class="btn-row" style="margin-top:14px"><button class="btn" id="buildResponse" type="button">Build response</button><button class="btn secondary" id="copyResponse" type="button">Copy</button></div><div class="response-box" id="responseOutput" style="margin-top:14px">Your calm response will appear here.</div></div>
         <div class="mini-card"><h4>Pause before sending</h4><textarea id="rawMessage" placeholder="Paste your message here..."></textarea><div class="tone-options" style="margin-top:10px"><button class="tone-chip active" data-tone="calm" type="button">Calm</button><button class="tone-chip" data-tone="firm" type="button">Firm</button><button class="tone-chip" data-tone="warm" type="button">Warm</button><button class="tone-chip" data-tone="boundary" type="button">Boundary</button></div><div class="micro-progress" id="messageSafety"><span></span><span></span><span></span><span></span></div><p class="small" id="messageSafetyText">Paste a message to check the heat.</p><div class="btn-row"><button class="btn" id="rewriteMessage" type="button">Rewrite calmer</button><button class="btn secondary" id="copyRewrite" type="button">Copy</button><button class="btn secondary" id="clearRewrite" type="button">Clear</button></div><div class="response-box" id="rewriteOutput" style="margin-top:14px">Your calmer version will appear here.</div></div>
@@ -1959,7 +2173,7 @@
     </details>
 
     <details class="tool" id="pro-relationship-section">
-      <summary><span class="icon">🤝</span><span class="sum-text"><h3>Relationship mode</h3><p>Slow down conflict before it becomes damage.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-relationship" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8.2" cy="8.5" r="2.7"/><circle cx="15.8" cy="8.5" r="2.7"/><path d="M4.5 18c.7-2.7 2.2-4 3.7-4s3 .9 3.8 2.5"/><path d="M12 16.5c.8-1.6 2.3-2.5 3.8-2.5s3 .9 3.7 4"/><path d="M12 20s-3.2-2-3.2-4.2c0-1.1.8-2 1.9-2 .7 0 1.1.3 1.3.7.3-.4.7-.7 1.3-.7 1.1 0 1.9.9 1.9 2C15.2 18 12 20 12 20Z"/></svg></span><span class="sum-text"><h3>Relationship mode</h3><p>Slow down conflict before it becomes damage.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner pro-panel-grid">
         <div class="mini-card"><h4>Before replying</h4><div class="row"><div><label for="relStory">Story I’m telling myself</label><input id="relStory" placeholder="They don’t care"></div><div><label for="relNeed">What I actually need</label><input id="relNeed" placeholder="clarity / reassurance / space"></div><div><label for="relOutcome">Outcome I want</label><input id="relOutcome" placeholder="talk without damaging things"></div></div><div class="btn-row" style="margin-top:14px"><button class="btn" id="relBuild" type="button">Build relationship reply</button><button class="btn secondary" id="relCopy" type="button">Copy</button></div></div>
         <div class="mini-card"><h4>Calm reply</h4><div class="response-box" id="relOutput">Your relationship reply will appear here.</div></div>
@@ -1967,7 +2181,7 @@
     </details>
 
     <details class="tool" id="repair-section">
-      <summary><span class="icon">🛠️</span><span class="sum-text"><h3>Repair after conflict</h3><p>Own your part and rebuild calmly.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-repair" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 5.2a4 4 0 0 0 4.3 4.3L9.2 19.1a2.2 2.2 0 0 1-3.1-3.1l9.6-9.6Z"/><path d="M7.2 16.7 9.3 18.8"/></svg></span><span class="sum-text"><h3>Repair after conflict</h3><p>Own your part and rebuild calmly.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
         <div class="mini-card"><h4>Repair message builder</h4><div class="row"><div><label for="repairDid">What did you do?</label><input id="repairDid" placeholder="I snapped"></div><div><label for="repairImpact">Impact</label><input id="repairImpact" placeholder="it may have hurt you"></div><div><label for="repairReason">Underneath</label><input id="repairReason" placeholder="I felt overwhelmed"></div><div><label for="repairNext">Next time</label><input id="repairNext" placeholder="I’ll pause earlier"></div></div><div class="btn-row" style="margin-top:14px"><button class="btn" id="buildRepair" type="button">Build repair</button><button class="btn secondary" id="copyRepair" type="button">Copy</button><button class="btn secondary" id="clearRepair" type="button">Clear</button></div><div class="response-box" id="repairOutput" style="margin-top:14px">Your repair message will appear here.</div></div>
         <div class="mini-card"><h4>Repair principles</h4><ul><li>Own behaviour without over-explaining.</li><li>Name impact, not just intention.</li><li>Say what you’ll do differently.</li><li>Keep it short and respectful.</li></ul></div>
@@ -1975,7 +2189,7 @@
     </details>
 
     <details class="tool" id="journal">
-      <summary><span class="icon">📘</span><span class="sum-text"><h3>Anger journal</h3><p>Track triggers, intensity, what helped, and next steps.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-journal" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 4.5h9.8A1.7 1.7 0 0 1 18 6.2v13.3H7.3A2.3 2.3 0 0 1 5 17.2V6a1.5 1.5 0 0 1 1.5-1.5Z"/><path d="M8 4.5v15"/><path d="M10.5 8h4.5"/><path d="M10.5 11h4.5"/></svg></span><span class="sum-text"><h3>Anger journal</h3><p>Track triggers, intensity, what helped, and next steps.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
         <div class="mini-card"><h4>New entry</h4><div class="row"><div><label for="journalSituation">Situation</label><textarea id="journalSituation" placeholder="What happened?"></textarea></div><div><label for="journalLevel">Anger level 1–10</label><input id="journalLevel" type="number" min="1" max="10" value="5"></div><div><label for="journalHelped">What helped?</label><input id="journalHelped" placeholder="walked away, breathed, waited"></div><div><label for="journalNext">Next time I’ll...</label><input id="journalNext" placeholder="take a timeout earlier"></div></div><div class="btn-row" style="margin-top:14px"><button class="btn" id="saveJournal" type="button">Save entry</button><button class="btn secondary" id="exportJournal" type="button">Export</button><button class="btn danger" id="clearJournal" type="button">Clear entries</button></div></div>
         <div class="mini-card"><h4>Saved entries</h4><div id="journalEntries" class="response-box">No entries yet.</div></div>
@@ -1983,27 +2197,27 @@
     </details>
 
     <details class="tool" id="habits-section">
-      <summary><span class="icon">🌱</span><span class="sum-text"><h3>Daily habits</h3><p>Lower your anger baseline with small foundations.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-habits" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20c-4.5-2.8-6.8-6.1-6.8-9.5 0-2.3 1.5-4 3.7-4 1.4 0 2.4.7 3.1 1.8.7-1.1 1.7-1.8 3.1-1.8 2.2 0 3.7 1.7 3.7 4 0 3.4-2.3 6.7-6.8 9.5Z"/><path d="M9.5 12h5"/></svg></span><span class="sum-text"><h3>Daily habits</h3><p>Lower your anger baseline with small foundations.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner"><div class="mini-card"><h4>Calm foundation</h4><div class="chips"><label class="chip"><input class="habit" type="checkbox"> sleep</label><label class="chip"><input class="habit" type="checkbox"> food</label><label class="chip"><input class="habit" type="checkbox"> water</label><label class="chip"><input class="habit" type="checkbox"> movement</label><label class="chip"><input class="habit" type="checkbox"> fresh air</label><label class="chip"><input class="habit" type="checkbox"> less alcohol</label></div><div class="response-box" id="habitScore" style="margin-top:14px">Tick a few habits to see your calm foundation score.</div></div></div></div>
     </details>
 
     <details class="tool" id="flow-section">
-      <summary><span class="icon">🧭</span><span class="sum-text"><h3>Guided de-escalation flow</h3><p>Walk through the trigger before you respond.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-flow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 7h6"/><path d="M13 7h6"/><path d="M5 17h6"/><path d="M13 17h6"/><circle cx="12" cy="7" r="1.8"/><circle cx="12" cy="17" r="1.8"/><path d="M12 9v6"/></svg></span><span class="sum-text"><h3>Guided de-escalation flow</h3><p>Walk through the trigger before you respond.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner"><div class="mini-card"><div class="flow-progress" id="flowProgress"><span class="flow-dot active"></span><span class="flow-dot"></span><span class="flow-dot"></span><span class="flow-dot"></span><span class="flow-dot"></span><span class="flow-dot"></span></div><div class="flow-card active"><h4>1. What happened?</h4><textarea id="flowTrigger" placeholder="State the facts only."></textarea></div><div class="flow-card"><h4>2. What story did your mind add?</h4><textarea id="flowStory" placeholder="They don’t care."></textarea></div><div class="flow-card"><h4>3. What else could be true?</h4><textarea id="flowIntent" placeholder="Alternative explanation."></textarea></div><div class="flow-card"><h4>4. What do you need?</h4><textarea id="flowNeed" placeholder="The reasonable need underneath."></textarea></div><div class="flow-card"><h4>5. What outcome do you want?</h4><textarea id="flowOutcome" placeholder="I want to be heard without damage."></textarea></div><div class="flow-card"><h4>6. Suggested response</h4><div class="response-box" id="flowResult">Complete the steps to generate a response.</div></div><div class="btn-row" style="margin-top:14px"><button class="btn secondary" id="flowBack" type="button">Back</button><button class="btn" id="flowNext" type="button">Next</button><button class="btn secondary" id="flowReset" type="button">Reset</button></div></div></div></div>
     </details>
 
     <details class="tool" id="pro-coach-section">
-      <summary><span class="icon">📈</span><span class="sum-text"><h3>Recovery score & coaching</h3><p>Track regulation actions, not perfection.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-recovery" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 18.5h14"/><path d="M7 15l3-3 2.5 2.5L17.5 8"/><path d="M15 8h2.5v2.5"/></svg></span><span class="sum-text"><h3>Recovery score & coaching</h3><p>Track regulation actions, not perfection.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner pro-panel-grid"><div class="mini-card"><h4>Recovery score</h4><div class="recovery-ring" id="recoveryRing"><span id="recoveryScore">0</span></div><div class="chips"><label class="chip"><input class="recovery-action" type="checkbox"> paused before replying</label><label class="chip"><input class="recovery-action" type="checkbox"> used breathing</label><label class="chip"><input class="recovery-action" type="checkbox"> grounded</label><label class="chip"><input class="recovery-action" type="checkbox"> rewrote message</label><label class="chip"><input class="recovery-action" type="checkbox"> made repair</label></div></div><div class="mini-card"><h4>Dynamic coaching</h4><div class="response-box" id="proDynamicCoach">Use the tools and save journal entries. STEADY will start spotting patterns.</div><div class="response-box" id="proPatternInsight" style="margin-top:10px"><strong>Pattern:</strong> Not enough data yet. Save 3+ journal entries for better coaching.</div></div></div></div>
     </details>
 
     <details class="tool" id="analytics-section">
-      <summary><span class="icon">▴</span><span class="sum-text"><h3>Progress analytics</h3><p>Spot patterns from saved journal entries.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-analytics" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19V5"/><path d="M5 19h14"/><path d="M8 16v-4"/><path d="M12 16V8"/><path d="M16 16v-6"/></svg></span><span class="sum-text"><h3>Progress analytics</h3><p>Spot patterns from saved journal entries.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner"><div class="analytics-grid"><div class="metric-card"><span class="metric-value" id="metricEntries">0</span><span class="metric-label">Entries</span></div><div class="metric-card"><span class="metric-value" id="metricAverage">–</span><span class="metric-label">Average intensity</span></div><div class="metric-card"><span class="metric-value" id="metricPauses">0</span><span class="metric-label">Pauses used</span></div></div><div class="mini-card" style="margin-top:14px"><h4>Common trigger words</h4><div id="triggerBars">Save journal entries to generate patterns.</div></div></div></div>
     </details>
 
     <details class="tool" id="support">
-      <summary><span class="icon">🛟</span><span class="sum-text"><h3>Safety and support</h3><p>Use extra help if anger feels unsafe or destructive.</p></span><span class="chev">⌄</span></summary>
+      <summary><span class="icon"><svg class="steady-icon-svg steady-icon-support" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.8 18.5 6v5.3c0 4.1-2.6 7.2-6.5 8.9-3.9-1.7-6.5-4.8-6.5-8.9V6L12 3.8Z"/><path d="M9.2 12.2 11.2 14 15 9.8"/></svg></span><span class="sum-text"><h3>Safety and support</h3><p>Use extra help if anger feels unsafe or destructive.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
 <div class="support-hero-card">
   <span class="kicker">About STEADY</span>
@@ -2057,20 +2271,20 @@
 
 
 <div class="tool-swipe-nav" id="toolSwipeNav" aria-hidden="true">
-  <button class="tool-swipe-btn" id="toolPrevBtn" type="button" aria-label="Previous tool">←</button>
+  <button class="tool-swipe-btn" id="toolPrevBtn" type="button" aria-label="Previous tool">‹</button>
   <div class="tool-swipe-title">
     <strong id="toolSwipeTitle">Tool</strong>
     <span id="toolSwipePosition">Swipe left or right</span>
   </div>
-  <button class="tool-swipe-btn" id="toolNextBtn" type="button" aria-label="Next tool">→</button>
+  <button class="tool-swipe-btn" id="toolNextBtn" type="button" aria-label="Next tool">›</button>
 </div>
 
 <nav class="bottom-nav" aria-label="Quick navigation">
-  <a class="nav-link" id="homeNavBtn" href="#top"><span>🏠</span>Home</a>
-  <a class="nav-link" href="#tools" data-open-target="tools"><span>🌡</span>Check</a>
-  <a class="nav-link" href="#respond-section" data-open-target="respond-section"><span>💬</span>Reply</a>
-  <a class="nav-link" href="#journal" data-open-target="journal"><span>📘</span>Journal</a>
-  <a class="nav-link" href="#support" data-open-target="support"><span>🛟</span>Support</a>
+  <a class="nav-link" id="homeNavBtn" href="#top"><span><svg class="steady-icon-svg steady-icon-home" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10.5V19h11v-8.5"/><path d="M10 19v-5h4v5"/></svg></span>Home</a>
+  <a class="nav-link" href="#tools" data-open-target="tools"><span><svg class="steady-icon-svg steady-icon-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4.5v10"/><path d="M9.5 6h5"/><path d="M9 14.5a4 4 0 1 0 6 0"/></svg></span>Check</a>
+  <a class="nav-link" href="#respond-section" data-open-target="respond-section"><span><svg class="steady-icon-svg steady-icon-message" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6.5h14v9H9l-4 3v-12Z"/><path d="M8 10h8"/><path d="M8 13h5"/></svg></span>Reply</a>
+  <a class="nav-link" href="#journal" data-open-target="journal"><span><svg class="steady-icon-svg steady-icon-journal" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 4.5h9.8A1.7 1.7 0 0 1 18 6.2v13.3H7.3A2.3 2.3 0 0 1 5 17.2V6a1.5 1.5 0 0 1 1.5-1.5Z"/><path d="M8 4.5v15"/><path d="M10.5 8h4.5"/><path d="M10.5 11h4.5"/></svg></span>Journal</a>
+  <a class="nav-link" href="#support" data-open-target="support"><span><svg class="steady-icon-svg steady-icon-support" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.8 18.5 6v5.3c0 4.1-2.6 7.2-6.5 8.9-3.9-1.7-6.5-4.8-6.5-8.9V6L12 3.8Z"/><path d="M9.2 12.2 11.2 14 15 9.8"/></svg></span>Support</a>
 </nav>
 
 <script>
@@ -2096,12 +2310,12 @@
   $("#themeBtn")?.addEventListener("click", function() {
     const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
     document.documentElement.dataset.theme = next;
-    this.textContent = next === "light" ? "🌙" : "☀️";
+    this.textContent = next === "light" ? "<span class="theme-glyph">☾</span>" : "<span class="theme-glyph">☼</span>";
     try { localStorage.setItem("steadyTheme", next); } catch {}
   });
   try {
     const saved = localStorage.getItem("steadyTheme");
-    if (saved) { document.documentElement.dataset.theme = saved; $("#themeBtn").textContent = saved === "light" ? "🌙" : "☀️"; }
+    if (saved) { document.documentElement.dataset.theme = saved; $("#themeBtn").textContent = saved === "light" ? "<span class="theme-glyph">☾</span>" : "<span class="theme-glyph">☼</span>"; }
   } catch {}
 
   $$("details.tool").forEach(d => d.open = false);
@@ -2331,8 +2545,8 @@
       closeBtn = document.createElement("button");
       closeBtn.type = "button";
       closeBtn.className = "tool-screen-close";
-      closeBtn.textContent = "Back";
-      closeBtn.setAttribute("aria-label", "Close full-screen tool");
+      closeBtn.textContent = "Home";
+      closeBtn.setAttribute("aria-label", "Return home");
       el.querySelector("summary")?.appendChild(closeBtn);
       closeBtn.addEventListener("click", (event) => {
         event.preventDefault();
@@ -2380,8 +2594,8 @@
         closeBtn = document.createElement("button");
         closeBtn.type = "button";
         closeBtn.className = "tool-screen-close";
-        closeBtn.textContent = "Back";
-        closeBtn.setAttribute("aria-label", "Close full-screen tool");
+        closeBtn.textContent = "Home";
+        closeBtn.setAttribute("aria-label", "Return home");
         summary.appendChild(closeBtn);
 
         closeBtn.addEventListener("click", (e) => {
@@ -2711,6 +2925,34 @@
   };
 
   updateDynamicRecommendation();
+
+
+  
+  // v6 fix: stop full-screen section header from collapsing when tapped.
+  // Only the Home button should close the full-screen tool.
+  document.addEventListener("click", (event) => {
+    const summary = event.target.closest("details.tool.tool-screen-open > summary");
+    if (!summary) return;
+
+    const clickedHome = event.target.closest(".tool-screen-close");
+    if (clickedHome) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+
+
+  
+  // v6 fix: prevent open/close toggle while in full-screen mode
+  document.addEventListener("toggle", (event) => {
+    const details = event.target;
+    if (!details?.matches?.("details.tool.tool-screen-open")) return;
+
+    // If browser tries to collapse it, immediately reopen
+    if (!details.open) {
+      details.open = true;
+    }
+  }, true);
 
 
   updateRecovery(); renderFlow();
