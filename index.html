@@ -1319,9 +1319,98 @@
       height: clamp(166px, 27vw, 232px) !important;
     }
 
-</style>
+
+    /* Mobile/iOS Calm Foundation alignment fix */
+    #habits-section .chips {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px !important;
+      align-items: stretch !important;
+      justify-items: stretch !important;
+      width: 100%;
+    }
+
+    #habits-section .chip {
+      width: 100% !important;
+      min-width: 0 !important;
+      min-height: 62px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      gap: 10px !important;
+      padding: 12px 10px !important;
+      line-height: 1.15 !important;
+    }
+
+    #habits-section .chip input[type="checkbox"] {
+      flex: 0 0 24px !important;
+      margin: 0 !important;
+    }
+
+    @media(max-width: 430px) {
+      #habits-section .chips {
+        grid-template-columns: 1fr !important;
+      }
+
+      #habits-section .chip {
+        min-height: 58px !important;
+      }
+    }
+
+    /* Pull to refresh indicator */
+    .pull-refresh-indicator {
+      position: fixed;
+      top: calc(12px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translate(-50%, -120%);
+      z-index: 200;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(77,166,255,.22);
+      background: color-mix(in srgb, var(--solid) 86%, transparent);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      font-size: .78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      opacity: 0;
+      transition: transform .22s ease, opacity .22s ease;
+      pointer-events: none;
+    }
+
+    .pull-refresh-indicator.visible {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    .pull-refresh-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(77,166,255,.28);
+    }
+
+    .pull-refresh-indicator.refreshing .pull-refresh-dot {
+      animation: pullRefreshPulse .7s ease-in-out infinite alternate;
+    }
+
+    @keyframes pullRefreshPulse {
+      from { transform: scale(.75); opacity: .55; }
+      to { transform: scale(1.15); opacity: 1; }
+    }
+
+  </style>
 </head>
 <body id="top">
+<div class="pull-refresh-indicator" id="pullRefreshIndicator" aria-hidden="true"><span class="pull-refresh-dot"></span><span id="pullRefreshText">Pull to refresh</span></div>
 <header>
   <div class="topbar">
     <div class="brand">
@@ -1943,6 +2032,83 @@ The goal is not to suppress anger — it’s to respond more clearly, calmly, an
       }, 40);
     }, true);
   });
+
+
+  
+  // Pull to refresh + robust full-screen launcher patch
+  (() => {
+    let startY = 0;
+    let pulling = false;
+    let readyToRefresh = false;
+    const indicator = document.getElementById("pullRefreshIndicator");
+    const pullText = document.getElementById("pullRefreshText");
+
+    function showPull(text, refreshing=false) {
+      if (!indicator) return;
+      indicator.classList.add("visible");
+      indicator.classList.toggle("refreshing", refreshing);
+      if (pullText) pullText.textContent = text;
+    }
+
+    function hidePull() {
+      if (!indicator) return;
+      indicator.classList.remove("visible", "refreshing");
+      readyToRefresh = false;
+    }
+
+    window.addEventListener("touchstart", (e) => {
+      if (window.scrollY > 0 || document.body.classList.contains("tool-screen-active")) return;
+      startY = e.touches[0].clientY;
+      pulling = true;
+      readyToRefresh = false;
+    }, {passive:true});
+
+    window.addEventListener("touchmove", (e) => {
+      if (!pulling || window.scrollY > 0 || document.body.classList.contains("tool-screen-active")) return;
+      const diff = e.touches[0].clientY - startY;
+      if (diff > 34) {
+        readyToRefresh = diff > 88;
+        showPull(readyToRefresh ? "Release to refresh" : "Pull to refresh");
+      }
+    }, {passive:true});
+
+    window.addEventListener("touchend", () => {
+      if (!pulling) return;
+      pulling = false;
+
+      if (readyToRefresh) {
+        showPull("Refreshing", true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 450);
+      } else {
+        hidePull();
+      }
+    }, {passive:true});
+
+    // Desktop fallback: double-click brand to refresh
+    document.querySelector(".brand")?.addEventListener("dblclick", () => window.location.reload());
+
+    // Make every data-open-target launch full-screen tool view when the target is a details.tool
+    document.addEventListener("click", (event) => {
+      const launcher = event.target.closest("[data-open-target]");
+      if (!launcher) return;
+
+      const target = launcher.dataset.openTarget;
+      const el = document.getElementById(target);
+      if (!el) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (el.matches("details.tool") && typeof openToolScreen === "function") {
+        openToolScreen(target);
+      } else {
+        if (el.tagName === "DETAILS") el.open = true;
+        setTimeout(() => el.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+      }
+    }, true);
+  })();
 
 
   renderEntries(); updateAnalytics(); updatePattern(); updateRecovery(); renderFlow();
