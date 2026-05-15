@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>STEADY Pro</title>
+  <link rel="preload" as="image" href="icon.png" fetchpriority="high">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
@@ -225,6 +226,9 @@
       0%, 100% { transform: scale(.86); opacity: .16; }
       50% { transform: scale(1.24); opacity: .36; }
     }
+    .reset-glass-orb,.calm-glass-orb,.steady-home-orb{will-change:transform,filter}
+    .reset-ripple{will-change:transform,opacity}
+    .orb,.lite-reset-orb{will-change:transform}
     @media (max-width: 760px) {
       .reset-signature-card {
         grid-template-columns: 1fr;
@@ -1556,7 +1560,7 @@
 <header>
   <div class="topbar">
     <div class="brand">
-      <div class="logo" aria-hidden="true"><img src="icon.png" alt=""></div>
+      <div class="logo" aria-hidden="true"><img src="icon.png" alt="" decoding="async" fetchpriority="high"></div>
       <div><h1>STEADY</h1><p>Pro tools for calmer responses.</p></div>
     </div>
     <button class="pill-btn" id="themeBtn" type="button" aria-label="Toggle theme">🌙</button>
@@ -1571,7 +1575,7 @@
         <span class="kicker">Today’s reset</span>
         <h2>Slow the body first.</h2>
         <p>Start with a 90-second reset before deciding what to say or do.</p>
-        <button class="focus-reset-inline" id="pro90TopBtn" type="button">
+        <button class="focus-reset-inline" id="pro90TopBtn" data-open-target="pro-reset-section" type="button">
           <span>⏱</span>
           <em>Start reset</em>
         </button>
@@ -1848,10 +1852,6 @@ The goal is not to suppress anger — it’s to respond more clearly, calmly, an
     setTimeout(() => el.scrollIntoView({behavior:"smooth", block:"start"}), 50);
   };
 
-  $$("[data-open-target]").forEach(el => el.addEventListener("click", e => {
-    e.preventDefault(); openSection(el.dataset.openTarget);
-  }));
-  $("#pro90TopBtn")?.addEventListener("click", e => { e.preventDefault(); openSection("pro-reset-section"); });
   $("#homeNavBtn")?.addEventListener("click", e => {
     e.preventDefault();
     $$("details.tool").forEach(d => d.open = false);
@@ -2112,18 +2112,6 @@ The goal is not to suppress anger — it’s to respond more clearly, calmly, an
     }, 40);
   }
 
-  document.addEventListener("click", (event) => {
-    const launcher = event.target.closest(screenLaunchSelectors.join(","));
-    if (!launcher) return;
-
-    const target = launcher.dataset.openTarget || (launcher.id === "pro90TopBtn" ? "pro-reset-section" : "");
-    if (!target) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-    openToolScreen(target);
-  }, true);
-
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeToolScreen();
 
@@ -2253,7 +2241,10 @@ The goal is not to suppress anger — it’s to respond more clearly, calmly, an
   })();
 
 
-  renderEntries(); updateAnalytics(); updatePattern(); updateRecovery(); renderFlow();
+  updateRecovery(); renderFlow();
+  const deferredInit = () => { renderEntries(); updateAnalytics(); updatePattern(); };
+  if ('requestIdleCallback' in window) requestIdleCallback(deferredInit, { timeout: 100 });
+  else setTimeout(deferredInit, 0);
 })();
 </script>
 </body>
