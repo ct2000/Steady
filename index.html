@@ -2221,10 +2221,10 @@
       <div class="panel"><div class="panel-inner grid2">
 <div class="support-hero-card">
   <span class="kicker">About STEADY</span>
-  <h4>Built for calmer responses.</h4>
+  <h4>Built for calmer responses. · Gold Release</h4>
   <p><strong>STEADY Pro</strong> is a practical self-help app designed to slow reactions, reduce emotional escalation, and support clearer choices during difficult moments.</p>
   <div class="support-meta-grid">
-    <div class="support-meta"><span>Build</span><strong>STEADY Pro v6</strong></div>
+    <div class="support-meta"><span>Build</span><strong>STEADY Pro Version 1.0</strong></div>
     <div class="support-meta"><span>Developer / Owner</span><strong>Lee Whittaker</strong></div>
     <div class="support-meta"><span>Focus</span><strong>Regulation · CBT · Communication</strong></div>
   </div>
@@ -2310,12 +2310,12 @@
   $("#themeBtn")?.addEventListener("click", function() {
     const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
     document.documentElement.dataset.theme = next;
-    this.textContent = next === "light" ? "<span class="theme-glyph">☾</span>" : "<span class="theme-glyph">☼</span>";
+    this.innerHTML = next === "light" ? '<span class="theme-glyph">☾</span>' : '<span class="theme-glyph">☼</span>';
     try { localStorage.setItem("steadyTheme", next); } catch {}
   });
   try {
     const saved = localStorage.getItem("steadyTheme");
-    if (saved) { document.documentElement.dataset.theme = saved; $("#themeBtn").textContent = saved === "light" ? "<span class="theme-glyph">☾</span>" : "<span class="theme-glyph">☼</span>"; }
+    if (saved) { document.documentElement.dataset.theme = saved; $("#themeBtn").innerHTML = saved === "light" ? '<span class="theme-glyph">☾</span>' : '<span class="theme-glyph">☼</span>'; }
   } catch {}
 
   $$("details.tool").forEach(d => d.open = false);
@@ -2951,6 +2951,28 @@
     // If browser tries to collapse it, immediately reopen
     if (!details.open) {
       details.open = true;
+    }
+  }, true);
+
+
+  
+  // v7 repair: robust section opening after icon upgrade
+  document.addEventListener("click", (event) => {
+    const launcher = event.target.closest("[data-open-target]");
+    if (!launcher) return;
+
+    const target = launcher.dataset.openTarget;
+    const section = document.getElementById(target);
+    if (!section) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (typeof openToolScreen === "function" && section.matches("details.tool")) {
+      openToolScreen(target);
+    } else {
+      if (section.tagName === "DETAILS") section.open = true;
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, true);
 
