@@ -1553,6 +1553,231 @@
       max-height: none !important;
     }
 
+  
+    /* v6: swipe navigation between full-screen tools */
+    .tool-swipe-nav {
+      position: fixed;
+      left: 50%;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      z-index: 150;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: min(540px, calc(100% - 26px));
+      padding: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--solid) 84%, transparent);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: var(--shadow);
+    }
+
+    body.tool-screen-active .tool-swipe-nav {
+      display: flex;
+    }
+
+    .tool-swipe-btn {
+      border: 1px solid rgba(77,166,255,.18);
+      background: rgba(77,166,255,.08);
+      color: var(--ink);
+      border-radius: 999px;
+      min-width: 44px;
+      min-height: 40px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 950;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--soft);
+    }
+
+    .tool-swipe-btn:disabled {
+      opacity: .34;
+      cursor: not-allowed;
+    }
+
+    .tool-swipe-title {
+      min-width: 0;
+      flex: 1;
+      text-align: center;
+      display: grid;
+      gap: 1px;
+    }
+
+    .tool-swipe-title strong {
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tool-swipe-title span {
+      font-size: .68rem;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    details.tool.tool-screen-open .panel {
+      padding-bottom: calc(180px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* v6: Support/About as a real app info area */
+    #support .support-hero-card {
+      grid-column: 1 / -1;
+      border-radius: 28px;
+      padding: clamp(20px, 4vw, 30px);
+      border: 1px solid rgba(77,166,255,.20);
+      background:
+        radial-gradient(circle at 88% 16%, rgba(77,166,255,.22), transparent 26%),
+        linear-gradient(145deg, rgba(77,166,255,.12), rgba(255,255,255,.05)),
+        var(--card);
+      box-shadow: var(--soft);
+      display: grid;
+      gap: 10px;
+    }
+
+    #support .support-hero-card h4 {
+      font-size: clamp(1.5rem, 6vw, 2.6rem);
+      line-height: .98;
+      letter-spacing: -.06em;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    #support .support-hero-card p {
+      max-width: 62ch;
+      margin: 0;
+    }
+
+    .support-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .support-meta {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 13px;
+      background: rgba(255,255,255,.05);
+    }
+
+    [data-theme="light"] .support-meta {
+      background: rgba(255,255,255,.72);
+    }
+
+    .support-meta span {
+      display: block;
+      color: var(--muted);
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 950;
+      margin-bottom: 3px;
+    }
+
+    .support-meta strong {
+      font-size: .92rem;
+      color: var(--ink);
+    }
+
+    .support-principles {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .support-principle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(77,166,255,.055);
+      color: var(--ink);
+      font-weight: 850;
+    }
+
+    .support-principle span {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(77,166,255,.12);
+      color: var(--accent);
+    }
+
+    @media(max-width: 760px) {
+      .support-meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-swipe-nav {
+        bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      }
+
+      .tool-swipe-title strong {
+        font-size: .72rem;
+      }
+    }
+
+  
+    /* Dynamic home recommendation */
+    .dynamic-recommend-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dynamic-recommend-card::after {
+      content: "";
+      position: absolute;
+      right: -48px;
+      bottom: -62px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(77,166,255,.10);
+      pointer-events: none;
+    }
+
+    .dynamic-recommend-card.recommend-reset {
+      border-color: rgba(77,166,255,.24);
+    }
+
+    .dynamic-recommend-card.recommend-triggered {
+      border-color: rgba(255,178,90,.28);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(255,178,90,.13), transparent 34%),
+        var(--card);
+    }
+
+    .dynamic-recommend-card.recommend-message {
+      border-color: rgba(128,201,255,.28);
+    }
+
+    .dynamic-recommend-card.recommend-rumination {
+      border-color: rgba(170,145,255,.28);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(170,145,255,.13), transparent 34%),
+        var(--card);
+    }
+
+    .dynamic-recommend-card.recommend-journal {
+      border-color: rgba(77,166,255,.22);
+    }
+
   </style>
 </head>
 <body id="top">
@@ -1621,13 +1846,13 @@
       </button>
     </div>
 
-    <div class="steady-recommend-card">
+    <div class="steady-recommend-card dynamic-recommend-card" id="dynamicRecommendCard">
       <div>
-        <span class="kicker">Recommended</span>
-        <strong>When you’re above 6/10, don’t start with words.</strong>
-        <p>Use Reset first, then Check message or Relationship mode once your body is lower.</p>
+        <span class="kicker">Recommended now</span>
+        <strong id="dynamicRecommendTitle">Start with a 90-second reset.</strong>
+        <p id="dynamicRecommendText">When you’re above 6/10, don’t start with words. Calm the body first, then choose your next move.</p>
       </div>
-      <button class="btn secondary" data-open-target="pro-triggered-section" type="button">Open triggered mode</button>
+      <button class="btn secondary" id="dynamicRecommendBtn" data-open-target="pro-reset-section" type="button">Start reset</button>
     </div>
 
     <div class="steady-section-heading">
@@ -1780,6 +2005,17 @@
     <details class="tool" id="support">
       <summary><span class="icon">🛟</span><span class="sum-text"><h3>Safety and support</h3><p>Use extra help if anger feels unsafe or destructive.</p></span><span class="chev">⌄</span></summary>
       <div class="panel"><div class="panel-inner grid2">
+<div class="support-hero-card">
+  <span class="kicker">About STEADY</span>
+  <h4>Built for calmer responses.</h4>
+  <p><strong>STEADY Pro</strong> is a practical self-help app designed to slow reactions, reduce emotional escalation, and support clearer choices during difficult moments.</p>
+  <div class="support-meta-grid">
+    <div class="support-meta"><span>Build</span><strong>STEADY Pro v6</strong></div>
+    <div class="support-meta"><span>Developer / Owner</span><strong>Lee Whittaker</strong></div>
+    <div class="support-meta"><span>Focus</span><strong>Regulation · CBT · Communication</strong></div>
+  </div>
+</div>
+
 <div class="mini-card">
 <h4>When to step away</h4>
 <ul>
@@ -1798,37 +2034,36 @@
 </div>
 
 <div class="mini-card">
-<h4>About STEADY</h4>
-<p><strong>STEADY Pro</strong> is designed to help slow reactions, reduce emotional escalation, and support calmer responses during difficult moments.</p>
-
-<p class="small">
-Built with practical tools inspired by emotional regulation, CBT principles, nervous-system calming, reflection, and communication support.
-</p>
-
-<div class="response-box" style="margin-top:12px">
-<strong>Build:</strong> STEADY Pro v5<br>
-<strong>Developer / Owner:</strong> Lee Whittaker
+<h4>App philosophy</h4>
+<p class="small">The goal is not to suppress anger — it’s to respond more clearly, calmly, and intentionally.</p>
+<div class="support-principles">
+  <div class="support-principle"><span>1</span>Pause before reacting</div>
+  <div class="support-principle"><span>2</span>Lower activation first</div>
+  <div class="support-principle"><span>3</span>Respond, don’t explode</div>
+  <div class="support-principle"><span>4</span>Repair when needed</div>
 </div>
 </div>
 
 <div class="mini-card">
-<h4>App philosophy</h4>
-<p class="small">
-The goal is not to suppress anger — it’s to respond more clearly, calmly, and intentionally.
-</p>
-
-<ul>
-<li>Pause before reacting</li>
-<li>Lower activation first</li>
-<li>Respond, don’t explode</li>
-<li>Repair when needed</li>
-</ul>
+<h4>What STEADY is built around</h4>
+<p class="small">Practical tools inspired by emotional regulation, CBT principles, nervous-system calming, journaling, repair after conflict, and clearer communication.</p>
+<div class="response-box" style="margin-top:12px">Private by design: entries are saved locally in this browser/device unless you export them.</div>
 </div>
 
 </div></div>
     </details>
   </section>
 </main>
+
+
+<div class="tool-swipe-nav" id="toolSwipeNav" aria-hidden="true">
+  <button class="tool-swipe-btn" id="toolPrevBtn" type="button" aria-label="Previous tool">←</button>
+  <div class="tool-swipe-title">
+    <strong id="toolSwipeTitle">Tool</strong>
+    <span id="toolSwipePosition">Swipe left or right</span>
+  </div>
+  <button class="tool-swipe-btn" id="toolNextBtn" type="button" aria-label="Next tool">→</button>
+</div>
 
 <nav class="bottom-nav" aria-label="Quick navigation">
   <a class="nav-link" id="homeNavBtn" href="#top"><span>🏠</span>Home</a>
@@ -2239,6 +2474,243 @@ The goal is not to suppress anger — it’s to respond more clearly, calmly, an
       }
     }, true);
   })();
+
+
+  
+  // v6: swipe/arrow navigation between full-screen tools
+  const toolOrder = [
+    "pro-reset-section",
+    "pro-triggered-section",
+    "respond-section",
+    "pro-rumination-section",
+    "calm-section",
+    "thinking-section",
+    "pro-relationship-section",
+    "repair-section",
+    "journal",
+    "habits-section",
+    "flow-section",
+    "pro-coach-section",
+    "analytics-section",
+    "support"
+  ];
+
+  function toolTitle(id) {
+    const el = document.getElementById(id);
+    return el?.querySelector("summary h3")?.textContent?.trim() || "Tool";
+  }
+
+  function currentToolIndex() {
+    if (!currentToolScreen) return -1;
+    return toolOrder.indexOf(currentToolScreen.id);
+  }
+
+  function updateToolSwipeNav() {
+    const idx = currentToolIndex();
+    const title = document.getElementById("toolSwipeTitle");
+    const pos = document.getElementById("toolSwipePosition");
+    const prev = document.getElementById("toolPrevBtn");
+    const next = document.getElementById("toolNextBtn");
+
+    if (idx < 0) return;
+
+    if (title) title.textContent = toolTitle(toolOrder[idx]);
+    if (pos) pos.textContent = `${idx + 1} of ${toolOrder.length} · Swipe`;
+    if (prev) prev.disabled = idx <= 0;
+    if (next) next.disabled = idx >= toolOrder.length - 1;
+  }
+
+  function openToolAtIndex(idx) {
+    if (idx < 0 || idx >= toolOrder.length) return;
+    openToolScreen(toolOrder[idx]);
+    setTimeout(updateToolSwipeNav, 70);
+  }
+
+  document.getElementById("toolPrevBtn")?.addEventListener("click", () => openToolAtIndex(currentToolIndex() - 1));
+  document.getElementById("toolNextBtn")?.addEventListener("click", () => openToolAtIndex(currentToolIndex() + 1));
+
+  let swipeStartX = 0;
+  let swipeStartY = 0;
+
+  document.addEventListener("touchstart", (event) => {
+    if (!document.body.classList.contains("tool-screen-active")) return;
+    swipeStartX = event.touches[0].clientX;
+    swipeStartY = event.touches[0].clientY;
+  }, {passive:true});
+
+  document.addEventListener("touchend", (event) => {
+    if (!document.body.classList.contains("tool-screen-active")) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - swipeStartX;
+    const dy = touch.clientY - swipeStartY;
+
+    if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.25) return;
+
+    if (dx < 0) openToolAtIndex(currentToolIndex() + 1);
+    else openToolAtIndex(currentToolIndex() - 1);
+  }, {passive:true});
+
+  document.addEventListener("keydown", (event) => {
+    if (!document.body.classList.contains("tool-screen-active")) return;
+    if (event.key === "ArrowRight") openToolAtIndex(currentToolIndex() + 1);
+    if (event.key === "ArrowLeft") openToolAtIndex(currentToolIndex() - 1);
+  });
+
+  const originalOpenToolScreen = openToolScreen;
+  openToolScreen = function(id) {
+    originalOpenToolScreen(id);
+    setTimeout(updateToolSwipeNav, 70);
+  };
+
+
+  
+  // v6: Dynamic home recommendation
+  const recommendCard = $("#dynamicRecommendCard");
+  const recommendTitle = $("#dynamicRecommendTitle");
+  const recommendText = $("#dynamicRecommendText");
+  const recommendBtn = $("#dynamicRecommendBtn");
+
+  function getTodayKey() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function getToolCount(key) {
+    try {
+      const data = JSON.parse(localStorage.getItem("steadyToolStats") || "{}");
+      return Number(data[key] || 0);
+    } catch {
+      return 0;
+    }
+  }
+
+  function trackToolUse(id) {
+    try {
+      const data = JSON.parse(localStorage.getItem("steadyToolStats") || "{}");
+      data[id] = Number(data[id] || 0) + 1;
+      data.lastTool = id;
+      data.lastUsedDate = getTodayKey();
+      localStorage.setItem("steadyToolStats", JSON.stringify(data));
+    } catch {}
+  }
+
+  function setRecommendation(kind, title, text, button, target) {
+    if (!recommendCard || !recommendTitle || !recommendText || !recommendBtn) return;
+
+    recommendCard.classList.remove(
+      "recommend-reset",
+      "recommend-triggered",
+      "recommend-message",
+      "recommend-rumination",
+      "recommend-journal"
+    );
+
+    recommendCard.classList.add("recommend-" + kind);
+    recommendTitle.textContent = title;
+    recommendText.textContent = text;
+    recommendBtn.textContent = button;
+    recommendBtn.dataset.openTarget = target;
+  }
+
+  function updateDynamicRecommendation() {
+    let entries = [];
+    let stats = {};
+
+    try { entries = JSON.parse(localStorage.getItem(journalKey)) || []; } catch {}
+    try { stats = JSON.parse(localStorage.getItem("steadyToolStats") || "{}"); } catch {}
+
+    const lastTool = stats.lastTool || "";
+    const lastUsedToday = stats.lastUsedDate === getTodayKey();
+    const recentEntries = entries.slice(-5);
+    const avg = recentEntries.length
+      ? recentEntries.reduce((sum, e) => sum + Number(e.level || 0), 0) / recentEntries.length
+      : 0;
+
+    const messageUses = getToolCount("respond-section");
+    const resetUses = getToolCount("pro-reset-section");
+    const ruminationUses = getToolCount("pro-rumination-section");
+
+    if (avg >= 7) {
+      setRecommendation(
+        "triggered",
+        "You’ve logged high activation recently.",
+        "Start with Triggered Mode so STEADY can guide the next best move before you respond.",
+        "Open triggered mode",
+        "pro-triggered-section"
+      );
+      return;
+    }
+
+    if (lastTool === "respond-section" && lastUsedToday) {
+      setRecommendation(
+        "reset",
+        "Before another message, reset first.",
+        "You used message tools recently. A 90-second reset can lower the heat before rewriting or replying.",
+        "Start reset",
+        "pro-reset-section"
+      );
+      return;
+    }
+
+    if (ruminationUses >= 2) {
+      setRecommendation(
+        "rumination",
+        "Your mind may be looping.",
+        "If you’re replaying the same argument, use Stuck Thinking to interrupt the cycle.",
+        "Open stuck thinking",
+        "pro-rumination-section"
+      );
+      return;
+    }
+
+    if (messageUses > resetUses + 1) {
+      setRecommendation(
+        "message",
+        "Check the message, but slow the body first.",
+        "You’ve used message support more than reset. Try Reset before rewriting for a calmer outcome.",
+        "Start reset",
+        "pro-reset-section"
+      );
+      return;
+    }
+
+    if (entries.length >= 3) {
+      setRecommendation(
+        "journal",
+        "Build the pattern picture.",
+        "You have enough entries to start spotting trends. Check Recovery and Progress for your patterns.",
+        "View recovery",
+        "pro-coach-section"
+      );
+      return;
+    }
+
+    setRecommendation(
+      "reset",
+      "Start with a 90-second reset.",
+      "When you’re above 6/10, don’t start with words. Calm the body first, then choose your next move.",
+      "Start reset",
+      "pro-reset-section"
+    );
+  }
+
+  // Track tools opened from dashboard/full-screen flow
+  document.addEventListener("click", (event) => {
+    const launcher = event.target.closest("[data-open-target]");
+    if (!launcher) return;
+    const target = launcher.dataset.openTarget;
+    if (target) {
+      trackToolUse(target);
+      setTimeout(updateDynamicRecommendation, 150);
+    }
+  }, true);
+
+  const originalSetEntriesForRecommendation = setEntries;
+  setEntries = function(entries) {
+    originalSetEntriesForRecommendation(entries);
+    setTimeout(updateDynamicRecommendation, 100);
+  };
+
+  updateDynamicRecommendation();
 
 
   updateRecovery(); renderFlow();
